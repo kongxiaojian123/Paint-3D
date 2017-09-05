@@ -1,0 +1,82 @@
+@function rpx($size) {
+    $tempSize: $size/100;
+    @if ($size==0){
+        @return $size;
+    }
+    @if (unit($tempSize)=='') {
+        @return $tempSize*1rem;
+    } @else if (unit($tempSize)=='px') {
+        @return $tempSize/1px*1rem;
+    } @else {
+        @return $size;
+    }
+}
+@mixin prefit($key,$list...){
+    $computedList:'';
+    @each $value in $list{
+        @if nth($value, 1) == transform{
+            $computedList:$computedList+'-webkit-'+$value;
+        }@else{
+            $computedList:$computedList+$value;
+        }
+        @if index($list,$value) != length($list){
+            $computedList:$computedList+',';
+        }
+    }
+    -webkit-#{$key}:unquote($computedList);
+    #{$key}:$list;
+}
+@mixin transform($t...){
+    @include prefit(transform,$t);
+}
+@mixin transform-origin($origin...){
+    @include prefit(transform-origin,$origin);
+}
+@mixin translate($x:0,$y:0){
+    @include prefit(transform,translate(rpx($x),rpx($y)));
+}
+@mixin translate3d($x:0,$y:0,$z:0){
+    @include prefit(transform,translate3d(rpx($x),rpx($y),rpx($z)));
+}
+@mixin translateX($x:0){
+    @include translate($x,0);
+}
+@mixin translateY($y:0){
+    @include translate(0,$y);
+}
+@mixin translateZ($z:0){
+    @include translate3d(0,0,$z);
+}
+@mixin scale($x:1,$y:1){
+    @include prefit(transform,scale($x,$y));
+}
+@mixin rotateZ($deg:0){
+    @include prefit(transform,rotateZ($deg));
+}
+@mixin background-size($size...){
+    @include prefit(background-size,$size...);
+}
+@mixin animation($ani...){
+    @include prefit(animation,$ani...);
+}
+@mixin transition($trans...){
+    @include prefit(transition,$trans...);
+}
+@mixin border-radius($size){
+    @include prefit(border-radius,rpx($size));
+}
+@mixin keyframes($animationName) {
+    @-webkit-keyframes #{$animationName} { @content; }
+    @keyframes #{$animationName} { @content; }
+}
+@mixin bg($w,$h,$img,$t:50%,$l:50%){
+    position: absolute;
+    top: rpx($t);
+    left: rpx($l);
+    width: rpx($w);
+    height: rpx($h);
+    margin-left:rpx(-$w/2);
+    margin-top:rpx(-$h/2);
+    background: url("#{$img}") no-repeat center;
+    @include background-size(contain);
+}

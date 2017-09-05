@@ -1,0 +1,13 @@
+/**
+ * Created by kongxiaojian on 16/11/8.
+ */
+//compile --output-style compressed
+@import "compass";
+@import "compass/reset";
+@import "_common";
+//@import "bg/*.png";
+//@include all-bg-sprites;
+div{
+    position: relative;
+    @include box-sizing(border-box);
+}
