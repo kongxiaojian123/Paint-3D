@@ -7,3 +7,15 @@
 @import "common";
 //@import "bg/*.png";
 //@include all-bg-sprites;
+html{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+body{
+    @extend html;
+}
+#app{
+    @extend html;
+    overflow: hidden;
+}
