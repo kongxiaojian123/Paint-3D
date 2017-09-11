@@ -17,18 +17,11 @@
     <script>
         var zoomStyle = document.createElement('style');
         document.documentElement.appendChild(zoomStyle);
-        (function zoomStyleFun() {
-            var screenWidth = document.documentElement.clientWidth;
-            var screenHeight = document.documentElement.clientHeight;
-            var scaleTemp = screenHeight / screenWidth * 640 / 1030;
-            scaleTemp = scaleTemp > 1 ? 1 : scaleTemp;
-            var fontTemp = screenWidth / (640 / 2) * 50;
-            if(scaleTemp<1){
-                zoomStyle.innerHTML = 'html{font-size:' + fontTemp + 'px}.auto_scale{-webkit-transform: scale(' + scaleTemp + ');transform: scale(' + scaleTemp + ');}';
-            }else{
-                zoomStyle.innerHTML = 'html{font-size:' + fontTemp + 'px}';
-            }
-        })();
+        var screenWidth = document.documentElement.clientWidth;
+        var screenHeight = document.documentElement.clientHeight;
+        if(screenWidth>screenHeight)screenHeight+=55;
+        else screenHeight+=60;
+        zoomStyle.innerHTML = 'html{font-size:' + Math.min(screenWidth,screenHeight) / (640 / 2) * 50 + 'px;}@media all and (orientation : landscape) {html{font-size:' + Math.max(screenWidth,screenHeight) / (640 / 2) * 50 + 'px;}}';
     </script>
     <link rel="stylesheet" href="../css/index.css"/>
 </head>
